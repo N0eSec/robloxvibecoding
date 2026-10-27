@@ -19,10 +19,13 @@ No necesita `npm install`: **cero dependencias**.
 ## Conectarlo a tu juego de verdad
 
 ```bash
-cp .env.example .env
-# edita .env y pon al menos PLACE_ID o UNIVERSE_ID
-npm start
+cp .env.example .env     # ya viene con el PLACE_ID 80633510292098
+npm run check            # comprueba que lee tu juego y te dice qué falta
+npm start                # http://localhost:8787
 ```
+
+`npm run check` te dice el nombre de tu juego, sus visitas y el `ROBLOX_USER_ID` o
+`ROBLOX_GROUP_ID` que te toca poner para las ventas.
 
 Hay 3 fuentes de datos y puedes usar las que quieras. Cuantas más actives, más completo:
 
