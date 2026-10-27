@@ -19,7 +19,7 @@ No necesita `npm install`: **cero dependencias**.
 ## Conectarlo a tu juego de verdad
 
 ```bash
-cp .env.example .env     # ya viene con el PLACE_ID 80633510292098
+npm run setup            # crea el .env (ya trae tu PLACE_ID) — Windows incluido
 npm run check            # comprueba que lee tu juego y te dice qué falta
 npm start                # http://localhost:8787
 ```
@@ -41,7 +41,12 @@ Roblox pueda hablar con tu PC: **[docs/SETUP.md](docs/SETUP.md)**.
 
 ## La meta
 
-En `.env`:
+Hay un botón **“Añadir Robux”** abajo a la derecha: metes una cantidad (o usas los
+atajos +100 / +1,000 / +50,000), le pones una nota opcional y la meta sube al
+instante. Queda guardado en tu historial y aparece en el feed marcado como `manual`.
+Si te equivocas, **Deshacer el último** lo quita.
+
+Para cambiar la meta, en `.env`:
 
 ```
 GOAL_ROBUX=300000

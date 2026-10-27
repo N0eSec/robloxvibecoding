@@ -5,50 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robux Dashboard</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>💎</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="glow"></div>
+<div class="backdrop" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+<div class="grain" aria-hidden="true"></div>
 
-<header class="topbar">
+<header class="topbar reveal">
   <div class="brand">
-    <img id="game-icon" alt="" hidden>
-    <div>
+    <div class="brand-art"><img id="game-icon" alt=""><span class="brand-fallback">🎮</span></div>
+    <div class="brand-text">
       <h1 id="game-name">Cargando…</h1>
-      <p class="sub"><span id="universe-id">—</span> · <span class="live-dot" id="live-dot"></span><span id="live-text">conectando</span></p>
+      <p class="sub"><span class="chip" id="universe-id">—</span><span class="chip live" id="live-chip"><i></i><span id="live-text">conectando</span></span></p>
     </div>
   </div>
   <div class="now">
-    <div class="now-box"><span class="now-value" id="now-playing">—</span><span class="now-label">jugando ahora</span></div>
-    <div class="now-box"><span class="now-value" id="now-today">—</span><span class="now-label">R$ hoy</span></div>
+    <div class="now-box"><span class="now-value num" id="now-playing">0</span><span class="now-label">jugando ahora</span></div>
+    <div class="now-box accent"><span class="now-value num" id="now-today">0</span><span class="now-label">R$ hoy</span></div>
   </div>
 </header>
 
-<section class="goal-card">
+<section class="goal reveal" style="--d:.05s">
   <div class="goal-ring">
-    <svg viewBox="0 0 160 160">
-      <circle class="ring-bg" cx="80" cy="80" r="68"></circle>
-      <circle class="ring-fill" id="ring" cx="80" cy="80" r="68"></circle>
+    <svg viewBox="0 0 170 170">
+      <defs>
+        <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6ee7b7"/><stop offset="55%" stop-color="#35d79a"/><stop offset="100%" stop-color="#8ab4ff"/>
+        </linearGradient>
+      </defs>
+      <circle class="ring-bg" cx="85" cy="85" r="70"></circle>
+      <circle class="ring-fill" id="ring" cx="85" cy="85" r="70"></circle>
     </svg>
     <div class="ring-center">
-      <strong id="goal-pct">0%</strong>
+      <strong class="num" id="goal-pct">0.0%</strong>
       <span>de la meta</span>
     </div>
   </div>
+
   <div class="goal-body">
-    <h2>Meta: <span id="goal-target">300,000</span> R$</h2>
-    <div class="goal-bar"><div class="goal-bar-fill" id="goal-bar"></div></div>
+    <div class="goal-head">
+      <h2>Meta de Robux</h2>
+      <span class="goal-target num" id="goal-target">300,000 R$</span>
+    </div>
+
+    <div class="goal-bar">
+      <div class="goal-bar-fill" id="goal-bar"><span class="shine"></span></div>
+      <i class="tick" style="left:25%"></i><i class="tick" style="left:50%"></i><i class="tick" style="left:75%"></i>
+    </div>
+
     <div class="goal-stats">
-      <div><strong id="goal-earned">—</strong><span>conseguidos</span></div>
-      <div><strong id="goal-remaining">—</strong><span>faltan</span></div>
-      <div><strong id="goal-perday">—</strong><span>R$ / día (7d)</span></div>
+      <div><strong class="num" id="goal-earned">0</strong><span>conseguidos</span></div>
+      <div><strong class="num" id="goal-remaining">0</strong><span>faltan</span></div>
+      <div><strong class="num" id="goal-perday">0</strong><span>R$ / día · 7d</span></div>
       <div><strong id="goal-eta">—</strong><span>llegada estimada</span></div>
     </div>
   </div>
 </section>
 
-<nav class="tabs" id="tabs">
-  <button class="tab active" data-tab="overview">Resumen</button>
+<nav class="tabs reveal" id="tabs" style="--d:.1s">
+  <span class="tab-pill" id="tab-pill"></span>
+  <button class="tab is-active" data-tab="overview">Resumen</button>
   <button class="tab" data-tab="live">Live Feed</button>
   <button class="tab" data-tab="visits">Visitas</button>
   <button class="tab" data-tab="spenders">Top Spenders</button>
@@ -58,16 +77,15 @@
 </nav>
 
 <main>
-  <!-- RESUMEN -->
-  <section class="panel active" id="panel-overview">
+  <section class="panel is-active" id="panel-overview">
     <div class="kpi-grid" id="kpis"></div>
     <div class="card">
-      <div class="card-head"><h3>Robux por hora · 24h</h3><span class="hint" id="rev24-sum"></span></div>
+      <div class="card-head"><h3>Robux por hora</h3><span class="hint" id="rev24-sum">últimas 24 h</span></div>
       <div id="chart-rev24" class="chart"></div>
     </div>
     <div class="two-col">
       <div class="card">
-        <div class="card-head"><h3>Jugadores online</h3></div>
+        <div class="card-head"><h3>Jugadores online</h3><span class="hint">24 h</span></div>
         <div id="chart-players" class="chart"></div>
       </div>
       <div class="card">
@@ -77,60 +95,51 @@
     </div>
   </section>
 
-  <!-- LIVE -->
   <section class="panel" id="panel-live">
     <div class="card">
-      <div class="card-head">
-        <h3>Compras recientes</h3>
-        <span class="hint"><span id="feed-count">0</span> hoy</span>
-      </div>
+      <div class="card-head"><h3>Compras recientes</h3><span class="hint"><b class="num" id="feed-count">0</b> hoy</span></div>
       <ul class="feed" id="feed"></ul>
     </div>
   </section>
 
-  <!-- VISITAS -->
   <section class="panel" id="panel-visits">
-    <div class="big-number">
-      <strong id="total-visits">—</strong>
-      <span>VISITAS TOTALES</span>
-      <em><span id="visits-rate">—</span> visitas / min</em>
+    <div class="card hero-number">
+      <strong class="num" id="total-visits">0</strong>
+      <span>visitas totales</span>
+      <em><b class="num" id="visits-rate">0</b> visitas / min</em>
     </div>
     <div class="kpi-grid" id="visit-kpis"></div>
     <div class="card">
-      <div class="card-head"><h3>Jugadores online · 24h</h3></div>
+      <div class="card-head"><h3>Jugadores online</h3><span class="hint">24 h</span></div>
       <div id="chart-players-big" class="chart tall"></div>
     </div>
   </section>
 
-  <!-- SPENDERS -->
   <section class="panel" id="panel-spenders">
     <div class="card">
-      <div class="card-head"><h3>Top spenders · 30 días</h3></div>
+      <div class="card-head"><h3>Top spenders</h3><span class="hint">30 días</span></div>
       <div id="spenders"></div>
     </div>
   </section>
 
-  <!-- PRODUCTOS -->
   <section class="panel" id="panel-products">
     <div class="card">
-      <div class="card-head"><h3>Productos · 30 días</h3></div>
+      <div class="card-head"><h3>Productos</h3><span class="hint">30 días</span></div>
       <div id="products"></div>
     </div>
   </section>
 
-  <!-- HORA -->
   <section class="panel" id="panel-hourly">
     <div class="card">
-      <div class="card-head"><h3>Robux por hora</h3></div>
+      <div class="card-head"><h3>Robux por hora</h3><span class="hint">24 h</span></div>
       <div id="chart-hourly" class="chart tall"></div>
     </div>
     <div class="card"><div id="table-hourly"></div></div>
   </section>
 
-  <!-- DIA -->
   <section class="panel" id="panel-daily">
     <div class="card">
-      <div class="card-head"><h3>Robux por día · 30 días</h3></div>
+      <div class="card-head"><h3>Robux por día</h3><span class="hint">30 días</span></div>
       <div id="chart-daily" class="chart tall"></div>
     </div>
     <div class="card"><div id="table-daily"></div></div>
@@ -138,6 +147,44 @@
 </main>
 
 <footer id="footer"></footer>
+
+<button class="fab" id="fab" title="Añadir Robux a la meta">
+  <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+  <span>Añadir Robux</span>
+</button>
+
+<div class="modal-bg" id="modal-bg" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-x" id="modal-x" aria-label="Cerrar">✕</button>
+    <h3 id="modal-title">Añadir Robux a la meta</h3>
+    <p class="modal-sub">Suma lo que ya llevas o lo que te acaban de pagar. Se guarda en tu historial y la meta crece al instante.</p>
+
+    <div class="quick" id="quick">
+      <button data-amt="100">+100</button>
+      <button data-amt="500">+500</button>
+      <button data-amt="1000">+1,000</button>
+      <button data-amt="5000">+5,000</button>
+      <button data-amt="10000">+10,000</button>
+      <button data-amt="50000">+50,000</button>
+    </div>
+
+    <label class="field">
+      <span>Cantidad</span>
+      <input id="amount" type="number" min="1" step="1" placeholder="1500" inputmode="numeric">
+    </label>
+    <label class="field">
+      <span>Nota <i>(opcional)</i></span>
+      <input id="note" type="text" maxlength="60" placeholder="Pago de gamepasses, venta de octubre…">
+    </label>
+
+    <div class="modal-actions">
+      <button class="btn ghost" id="undo">Deshacer el último</button>
+      <button class="btn primary" id="save">Añadir a la meta</button>
+    </div>
+    <p class="modal-err" id="modal-err"></p>
+  </div>
+</div>
+
 <div id="toasts"></div>
 <script src="/app.js" type="module"></script>
 </body>

@@ -73,6 +73,19 @@ export function addSnapshot(snap) {
   return row;
 }
 
+/** Borra el último evento de una fuente (para el botón de deshacer). */
+export function removeLastBySource(source) {
+  for (let i = db.events.length - 1; i >= 0; i--) {
+    if (db.events[i].source !== source) continue;
+    const [removed] = db.events.splice(i, 1);
+    db.seen.delete(removed.id);
+    // El NDJSON es append-only: lo reescribimos entero (son pocos miles de líneas).
+    writeFileSync(EVENTS, db.events.map((e) => JSON.stringify(e)).join('\n') + '\n');
+    return removed;
+  }
+  return null;
+}
+
 export const events = () => db.events;
 export const snapshots = () => db.snapshots;
 export const lastSnapshot = () => db.snapshots[db.snapshots.length - 1] || null;

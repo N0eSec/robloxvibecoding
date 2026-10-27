@@ -30,7 +30,8 @@ const num = (v, fallback) => {
 
 export const config = {
   port: num(process.env.PORT, 8787),
-  demo: process.env.DEMO === '1' || process.env.DEMO === 'true',
+  // --demo funciona igual en Windows (CMD/PowerShell) que en Mac/Linux.
+  demo: process.env.DEMO === '1' || process.env.DEMO === 'true' || process.argv.includes('--demo'),
 
   gameName: process.env.GAME_NAME || 'Mi Juego',
   universeId: (process.env.UNIVERSE_ID || '').trim(),

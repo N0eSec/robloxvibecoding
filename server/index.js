@@ -4,7 +4,7 @@ import { extname, join, normalize, resolve } from 'node:path';
 import { timingSafeEqual } from 'node:crypto';
 
 import { config, configSummary } from './config.js';
-import { initStore, addEvent, events, snapshots } from './store.js';
+import { initStore, addEvent, events, snapshots, removeLastBySource } from './store.js';
 import { bus, startPolling, status } from './poller.js';
 import { startDemo } from './demo.js';
 import * as stats from './stats.js';
@@ -107,6 +107,31 @@ const server = createServer(async (req, res) => {
         if (row) { saved.push(row); bus.emit('purchase', row); }
       }
       return json(res, { ok: true, saved: saved.length });
+    }
+
+    // Alta manual de Robux desde el botón del dashboard. Sin secreto: solo local.
+    if (p === '/api/manual' && req.method === 'POST') {
+      const body = JSON.parse((await readBody(req)) || '{}');
+      const robux = Math.round(Number(body.robux));
+      if (!Number.isFinite(robux) || robux < 1 || robux > 10_000_000) {
+        return json(res, { error: 'cantidad inválida (1 a 10,000,000)' }, 400);
+      }
+      const row = addEvent({
+        ts: Date.now(),
+        username: body.note?.trim() || 'Registro manual',
+        productName: body.note?.trim() || 'Robux añadidos a mano',
+        robux,
+        kind: 'Manual',
+        source: 'manual',
+      });
+      if (row) bus.emit('purchase', row);
+      return json(res, { ok: true, event: row, goal: stats.goal() });
+    }
+
+    if (p === '/api/manual/undo' && req.method === 'POST') {
+      const removed = removeLastBySource('manual');
+      bus.emit('snapshot', { ts: Date.now() });
+      return json(res, { ok: Boolean(removed), removed, goal: stats.goal() });
     }
 
     if (p === '/api/stream') return sse(req, res);
