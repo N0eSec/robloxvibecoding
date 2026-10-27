@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robux Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>💎</text></svg>">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="glow"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <img id="game-icon" alt="" hidden>
+    <div>
+      <h1 id="game-name">Cargando…</h1>
+      <p class="sub"><span id="universe-id">—</span> · <span class="live-dot" id="live-dot"></span><span id="live-text">conectando</span></p>
+    </div>
+  </div>
+  <div class="now">
+    <div class="now-box"><span class="now-value" id="now-playing">—</span><span class="now-label">jugando ahora</span></div>
+    <div class="now-box"><span class="now-value" id="now-today">—</span><span class="now-label">R$ hoy</span></div>
+  </div>
+</header>
+
+<section class="goal-card">
+  <div class="goal-ring">
+    <svg viewBox="0 0 160 160">
+      <circle class="ring-bg" cx="80" cy="80" r="68"></circle>
+      <circle class="ring-fill" id="ring" cx="80" cy="80" r="68"></circle>
+    </svg>
+    <div class="ring-center">
+      <strong id="goal-pct">0%</strong>
+      <span>de la meta</span>
+    </div>
+  </div>
+  <div class="goal-body">
+    <h2>Meta: <span id="goal-target">300,000</span> R$</h2>
+    <div class="goal-bar"><div class="goal-bar-fill" id="goal-bar"></div></div>
+    <div class="goal-stats">
+      <div><strong id="goal-earned">—</strong><span>conseguidos</span></div>
+      <div><strong id="goal-remaining">—</strong><span>faltan</span></div>
+      <div><strong id="goal-perday">—</strong><span>R$ / día (7d)</span></div>
+      <div><strong id="goal-eta">—</strong><span>llegada estimada</span></div>
+    </div>
+  </div>
+</section>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-tab="overview">Resumen</button>
+  <button class="tab" data-tab="live">Live Feed</button>
+  <button class="tab" data-tab="visits">Visitas</button>
+  <button class="tab" data-tab="spenders">Top Spenders</button>
+  <button class="tab" data-tab="products">Productos</button>
+  <button class="tab" data-tab="hourly">Por hora</button>
+  <button class="tab" data-tab="daily">Por día</button>
+</nav>
+
+<main>
+  <!-- RESUMEN -->
+  <section class="panel active" id="panel-overview">
+    <div class="kpi-grid" id="kpis"></div>
+    <div class="card">
+      <div class="card-head"><h3>Robux por hora · 24h</h3><span class="hint" id="rev24-sum"></span></div>
+      <div id="chart-rev24" class="chart"></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-head"><h3>Jugadores online</h3></div>
+        <div id="chart-players" class="chart"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Últimas compras</h3></div>
+        <ul class="feed compact" id="feed-mini"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE -->
+  <section class="panel" id="panel-live">
+    <div class="card">
+      <div class="card-head">
+        <h3>Compras recientes</h3>
+        <span class="hint"><span id="feed-count">0</span> hoy</span>
+      </div>
+      <ul class="feed" id="feed"></ul>
+    </div>
+  </section>
+
+  <!-- VISITAS -->
+  <section class="panel" id="panel-visits">
+    <div class="big-number">
+      <strong id="total-visits">—</strong>
+      <span>VISITAS TOTALES</span>
+      <em><span id="visits-rate">—</span> visitas / min</em>
+    </div>
+    <div class="kpi-grid" id="visit-kpis"></div>
+    <div class="card">
+      <div class="card-head"><h3>Jugadores online · 24h</h3></div>
+      <div id="chart-players-big" class="chart tall"></div>
+    </div>
+  </section>
+
+  <!-- SPENDERS -->
+  <section class="panel" id="panel-spenders">
+    <div class="card">
+      <div class="card-head"><h3>Top spenders · 30 días</h3></div>
+      <div id="spenders"></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section class="panel" id="panel-products">
+    <div class="card">
+      <div class="card-head"><h3>Productos · 30 días</h3></div>
+      <div id="products"></div>
+    </div>
+  </section>
+
+  <!-- HORA -->
+  <section class="panel" id="panel-hourly">
+    <div class="card">
+      <div class="card-head"><h3>Robux por hora</h3></div>
+      <div id="chart-hourly" class="chart tall"></div>
+    </div>
+    <div class="card"><div id="table-hourly"></div></div>
+  </section>
+
+  <!-- DIA -->
+  <section class="panel" id="panel-daily">
+    <div class="card">
+      <div class="card-head"><h3>Robux por día · 30 días</h3></div>
+      <div id="chart-daily" class="chart tall"></div>
+    </div>
+    <div class="card"><div id="table-daily"></div></div>
+  </section>
+</main>
+
+<footer id="footer"></footer>
+<div id="toasts"></div>
+<script src="/app.js" type="module"></script>
+</body>
+</html>

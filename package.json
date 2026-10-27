@@ -1,0 +1,12 @@
+{
+  "name": "robux-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dashboard local en tiempo real para tu juego de Roblox: visitas, jugadores, ventas, top spenders y meta de Robux.",
+  "engines": { "node": ">=18.17" },
+  "scripts": {
+    "start": "node server/index.js",
+    "demo": "DEMO=1 node server/index.js"
+  }
+}
